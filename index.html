@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <script>
+
+      //debouncing according assignemnet send  request if anything is not input in 10 milisec 
+
+      //raw implmentation of debouncing
+
+      let timeout;
+      // what it does give a breather if someone is tyoeing very fast and let them finish after that i will do mu work  
+      function debouncepopulate(){
+
+         clearTimeout(timeout);  // whne debounce is called clear the old timeclock  and stat the newclock 
+         timeout =setTimeout(function(){
+            populatediv()
+         },1000);
+        
+         //timeout  gives a number and when it does not get any request under 10 milisec it clock restart it 
+      }
+
+
+
+      /* the script lets you link js file to html file */
+      /* the below code is way to do sum without js backend  */
+      // const element = document.getElementById("finalsum"); this the code we directly give the sum insteadof gettingit from backend
+        
+      function populatediv() {
+         const a = document.getElementById("firstnumber").value;
+         const b = document.getElementById("secondnumber").value;
+        // const element = document.getElementById("finalsum");
+        //instead of element deocment we can use async fetch call
+        /*   fetch("the portwebsite")
+        .then(function(response){
+         response.text()
+         .then(function(ans){
+            console.log(ans);
+            document.getElementById("")
+         })
+        });
+*/
+     
+
+
+        async function populatediv() {
+    try {
+        const a = document.getElementById("firstnumber").value;
+        const b = document.getElementById("secondnumber").value;
+        
+        // Make the fetch call
+        const response = await fetch("https://sum-server.100xdevs.com/sum?a="+a +"&b=" +b);
+        
+        // Check if the response is successful
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        // Extract the response text
+        const ans = await response.text();
+        
+        // Update the DOM with the response text
+        document.getElementById("result").innerText = ans;
+    } catch (error) {
+        // Handle any errors that may occur
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+
+      
+         //element.innerHTML = parseInt(a) + parseInt(b); /*inner.html is how put anyhting in a div 
+         /* parseint is global variable to convert string in to int */
+            /*oninput ="populatediv() is the way to give ouptut rather than by clicking on it */
+            /*documnet.queryselector(.finalsun   or "div*) it select all that with finalsum abd div array  /
+            /*documnet.getelemntbycyclename =>  it give and can select an array of the class name */
+      }
+   </script>
+</head>
+<body>
+
+   <input oninput="debouncepopulate()" id="firstnumber" type="text" placeholder="First Number"></input>
+   <input oninput="debouncepopulate()" id="secondnumber" type="text" placeholder="Second Number"></input>
+   <button onclick="populatediv()">Calculate Sum</button>
+   <div id="finalsum"></div>
+</body>
+</html>
